@@ -66,3 +66,8 @@ td.action-checkbox {
 .tooltip.in {opacity: 1} /* Hard to see against black text otherwise */
 
 #_changelist {clear: both;}
+
+.vLargeTextField {
+    width: 100%;
+
+}

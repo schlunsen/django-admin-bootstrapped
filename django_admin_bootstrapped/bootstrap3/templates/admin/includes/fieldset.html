@@ -21,7 +21,7 @@
             {% for field in line %}
                 <div class="col-md-{{ line|column_width }} form-group {% if not line.fields|length_is:'1' %} field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}{% endif %}">
                     {% if field.is_checkbox %}
-                        <div class="control-label col-sm-3">
+                        <div class="control-label col-sm-3 col-md-1">
                             {{ field.label_tag }}
                         </div>
                         <div class="controls col-sm-9">
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     {% else %}
-                        <div class="control-label col-sm-3">
+                        <div class="control-label col-sm-3 col-md-1">
                             {{ field.label_tag }}
                         </div>
                         <div class="controls col-sm-9">
