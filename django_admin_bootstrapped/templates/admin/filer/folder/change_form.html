@@ -1,11 +1,10 @@
 {% extends "admin/change_form.html" %}
-{% load i18n admin_modify adminmedia filermedia %}
-{% load url from future %}
+{% load i18n admin_modify admin_urls filermedia %}
 
 {% block breadcrumbs %}
 <ul class="breadcrumb">
     <li><a href="{% url 'admin:index' %}" title="{% trans "Go back to" %} {% trans "admin homepage" %}">{% trans "Home" %}</a><span class="divider">/</span></li>
-    <li><a href="{% url 'admin:index' %}filer/" title="{% trans "Go back to" %} {% trans "Filer" %}"> {% trans "Media" %}</a><span class="divider">/</span></li>
+    <li><a href="{% url 'admin:app_list' app_label='filer' %}" title="{% trans "Go back to" %} {% trans "Filer" %}"> {% trans "Filer" %}</a><span class="divider">/</span></li>
     <li><a href="{% url 'admin:filer-directory_listing-root' %}" title="{% trans "Go back to" %} '{% trans "root"|title %}' {% trans "folder" %}">{% trans "root"|title %}</a><span class="divider">/</span></li>
     {% for ancestor_folder in original.get_ancestors %}
     <li><a href="{% url 'admin:filer-directory_listing' ancestor_folder.id %}" title="{% blocktrans with ancestor_folder.name as folder_name %}Go back to '{{ folder_name }}' folder{% endblocktrans %}">{{ ancestor_folder.name }}</a><span class="divider">/</span></li>
@@ -19,8 +18,11 @@
 {% block object-tools %}
 {% if change %}{% if not is_popup %}
   <ul class="object-tools">
-      <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
-  {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+    <li>
+        {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+        <a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a>
+    </li>
+    {% if has_absolute_url %}<li><a href="{% url 'admin:view_on_site' content_type_id original.pk %}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
   </ul>
 {% endif %}{% endif %}
 {% endblock %}
@@ -36,10 +38,3 @@
     </div>
 </div>
 {% endif %}{% endblock %}
-
-{% block content %}
-
-  <div class="span9">
-    {{ block.super }}
-  </div>
-{% endblock %}
